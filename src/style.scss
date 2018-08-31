@@ -16,17 +16,23 @@ time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 2vw;
+    text-align: center;
+    font-size: 1.5vw;
     @media screen and (max-width: 700px) {
-        font-size: 2.5vw;
+        font-size: 1.5vw;
     }
 } // basic reset
 
+// html {
+//     height: 350vh;
+// }
+
 body {
     background-color: #130F10;
-    font-size: 1rem;
+    font-size: 2rem;
     font-family: 'Nunito Sans', sans-serif;
-    color: #cccccc;
+    color: #eeeeee;
+    overflow: hidden;
 }
 
 ul {
@@ -34,53 +40,91 @@ ul {
 }
 
 a {
-    color: #ffffff;
+    color: #eeeeee;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+.flex-page {
+    position: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    left: 50%;
+    margin-left: -40vw;
+    justify-content: flex-start;
+    @media screen and (max-width: 700px) {
+        width: 100vw;
+        left: 50%;
+        margin-left: -50vw;
+    }
 }
 
 header {
     display: block;
     position: fixed;
+    top: 0;
     width: 100vw;
-    background-color: #333;
+    left: 50%;
+    margin-left: -50vw;
+
+    // background-color: #333;
     height: auto;
     text-align: center;
+    z-index: 1;
 }
 
 header h1.marquee  {
     display: block;
-    margin-top: 1em;
-    padding: 0.5em;
-    font-size: 2em;
+    margin-top: 4em;
+    font-size: 1.5em;
     animation-name: title-shrink;
     animation-duration: 4s;
     animation-fill-mode: forwards;
-    font-weight: 900;
+    font-weight: 800;
     width: 100%;
+
 }
 
-.e-span {
-    display: inline-block;
-    animation-name: font-grow;
-    animation-duration: 1s;
-    font-size: 1em;
-    transform: rotate(-4deg);
+.portrait {
+    display: block;
+    height: 100vh;
+    background: url('./images/kevin_1200w.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: 50%;
+    animation-name: fade-image;
+    animation-duration: 8s;
+    opacity: 0.5;
+    z-index: 0;
+    img {
+        height: 100vh;
+        width: auto;
+    }
 }
   
 nav {
+    display: block;
     position: fixed;
+    right: 5vw;
     width: 100vw;
-    line-height: 2rem;
-    background-color: #444444;
+    line-height: 3rem;
+    background-color: black;
+    z-index: 2;
 }
+
 nav ul {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    justify-items: center;
 }
-nav ul li {
+nav ul li, nav ul li a {
     cursor: pointer;
     transition: color 500ms;
+    font-size: 1.5rem;
 }
 
 // idea for later with color highlight
@@ -96,36 +140,78 @@ nav ul li.highlight {
     color: #ffffff;
 }
 
-.main-container {
-    display: block;
-}
-
-.page {
-    min-height: 100vh;
-    max-height: 100vh;
-    width: 100vw;
-}
+// .main-container {
+//     display: block;
+// }
 
 .flex-content {
     // should be set by scrollify or no?
-    max-height: 100vh;
-    padding-top: 10rem;
-    padding-bottom: 5rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-bottom: 100vh;
+    // padding-top: 400vh;
     display: flex;
     flex-direction: column;
-    width: 70vw;
+    height: 200vh;
+    width: 80vw;
     margin: auto;
-    // align-content: space-between;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: flex-start;
 
     @media screen and (max-width: 700px) {
-        width: 95vw;
+        width: 100vw;
         margin: auto;
     }
     
 }
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+.scrollable-content {
+    display: block;
+    position: absolute;
+    height: 100vh;
+    top: 15rem;
+    width: 80vw;
+    left: 50%;
+    margin-left: -40vw;
+    overflow-y: scroll;
+    @media screen and (max-width: 700px) {
+        width: 100vw;
+        left: 50%;
+        margin-left: -50vw;
+    }
+}
+
+.content-section {
+    height: 90vh;
+}
+
+.media-links {
+    width: 80vw;
+    margin: auto;
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        li, li a {
+            text-align: center;
+            font-size: 3rem;  
+        }
+    }
+}
+
+.qr-code {
+    width:  80vw;
+    margin: auto;
+    text-align: center;
+    img {
+        width: 50vw;
+        height: 50vw;
+    }
+}
+
 
 .two-col {
     width: 100%; //based on width of flex-content
@@ -168,28 +254,54 @@ nav ul li.highlight {
 }
 
 .page-1 {
-    background-color: #446688;
+    background-color: black;
 }
+
 .page-2 {
     background-color: $caleColor;
+    height: 100vw-
     // more to do here, but for now get other stuff figured out
 }
 .page-3 {
     background-color: #448844;
 }
 .page-4 {
-    background-color: #444488;
+    background-color: $kbBlue;
 }
+
+#mc_embed_signup {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    label {
+        font-size: 1em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+    input {
+        padding-top: 0.1em;
+        padding-bottom: 0.1em;
+        border: none;
+    }
+    .button {
+        padding-top: 0.1em;
+        padding-bottom: 0.1em;
+        background: transparent;
+        color: white;
+        border-radius: 0.2em;
+        border: 2px solid white;
+    }
+}
+  
+  .mc-field-group {
+        line-height: 2.3rem;
+        font-size: 2rem;
+}
+
+
 
 .calendar {
     opacity: 0.8;
 }
-
-// .cursor {
-//     animation-name: cursor-blink;
-//     animation-iteration-count: infinite;
-//     animation-duration: 500ms;
-// }
 
 @keyframes title-shrink {
     0% { 
@@ -199,7 +311,7 @@ nav ul li.highlight {
         font-size: 4em;
     }
     100% { 
-        font-size: 2em;
+        font-size: 3em;
     }
 }
 
@@ -212,12 +324,11 @@ nav ul li.highlight {
 //     }
 // }
 
-@keyframes font-grow {
+@keyframes fade-image {
     0% {
-        font-size: 0em;
-
+        opacity: 1;
     }
     100% {
-        font-size: 1em;
+        opacity: 0.5;
     }
 }
