@@ -1,0 +1,36 @@
+{
+  "name": "berreycomic2.com",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dempseyc/kevin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dempseyc/kevin/issues"
+  },
+  "homepage": "https://github.com/dempseyc/kevin#readme",
+  "devDependencies": {
+    "css-loader": "^1.0.0",
+    "file-loader": "^1.1.11",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "jquery-scrollify": "^1.0.19",
+    "lodash": "^4.17.10",
+    "node-sass": "^4.9.2",
+    "sass-loader": "^7.0.3"
+  }
+}

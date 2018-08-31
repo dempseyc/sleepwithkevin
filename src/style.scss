@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900');
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 2vw;
+    @media screen and (max-width: 700px) {
+        font-size: 2.5vw;
+    }
+} // basic reset
+
+body {
+    background-color: #130F10;
+    font-size: 1rem;
+    font-family: 'Nunito Sans', sans-serif;
+    color: #cccccc;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    color: #ffffff;
+}
+
+header {
+    display: block;
+    position: fixed;
+    width: 100vw;
+    background-color: #333;
+    height: auto;
+    text-align: center;
+}
+
+header h1.marquee  {
+    display: block;
+    margin-top: 1em;
+    padding: 0.5em;
+    font-size: 2em;
+    animation-name: title-shrink;
+    animation-duration: 4s;
+    animation-fill-mode: forwards;
+    font-weight: 900;
+    width: 100%;
+}
+
+.e-span {
+    display: inline-block;
+    animation-name: font-grow;
+    animation-duration: 1s;
+    font-size: 1em;
+    transform: rotate(-4deg);
+}
+  
+nav {
+    position: fixed;
+    width: 100vw;
+    line-height: 2rem;
+    background-color: #444444;
+}
+nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    justify-items: center;
+}
+nav ul li {
+    cursor: pointer;
+    transition: color 500ms;
+}
+
+// idea for later with color highlight
+// $homeColor: #88aabb;
+$caleColor: #e9d13b;
+// $projColor: #66aa66;
+// $subsColor: #6666aa;
+// $applColor: #aa6666;
+$kbBlue: rgb(0,135,225);
+
+nav ul li.highlight {
+    // fill in idea for later with color highlight
+    color: #ffffff;
+}
+
+.main-container {
+    display: block;
+}
+
+.page {
+    min-height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+}
+
+.flex-content {
+    // should be set by scrollify or no?
+    max-height: 100vh;
+    padding-top: 10rem;
+    padding-bottom: 5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    margin: auto;
+    // align-content: space-between;
+    justify-content: space-around;
+
+    @media screen and (max-width: 700px) {
+        width: 95vw;
+        margin: auto;
+    }
+    
+}
+
+.two-col {
+    width: 100%; //based on width of flex-content
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    img, iframe {
+        max-width: 30vw;
+        margin: auto;
+    }
+    p {
+        max-width: 30vw;
+        margin: auto;
+    }
+    
+    @media screen and (max-width: 700px) {
+        
+        display: block;
+        width: 95%;
+        margin: auto;
+        
+        img, iframe {
+            max-width: 90vw;
+            margin: auto;
+        }
+        p {
+            max-width: 90vw;
+            padding: 3vw 3vw 3vw 3vw;
+            margin: auto;
+        }
+    }
+}
+
+.p2 {
+    display: block;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.page-1 {
+    background-color: #446688;
+}
+.page-2 {
+    background-color: $caleColor;
+    // more to do here, but for now get other stuff figured out
+}
+.page-3 {
+    background-color: #448844;
+}
+.page-4 {
+    background-color: #444488;
+}
+
+.calendar {
+    opacity: 0.8;
+}
+
+// .cursor {
+//     animation-name: cursor-blink;
+//     animation-iteration-count: infinite;
+//     animation-duration: 500ms;
+// }
+
+@keyframes title-shrink {
+    0% { 
+        font-size: 4em;
+    }
+    75% { 
+        font-size: 4em;
+    }
+    100% { 
+        font-size: 2em;
+    }
+}
+
+// @keyframes cursor-blink {
+//     0% {
+//         opacity: 0;
+//     }
+//     50% {
+//         opacity: 1;
+//     }
+// }
+
+@keyframes font-grow {
+    0% {
+        font-size: 0em;
+
+    }
+    100% {
+        font-size: 1em;
+    }
+}
