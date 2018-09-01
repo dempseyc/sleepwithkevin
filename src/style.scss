@@ -17,15 +17,14 @@ time, mark, audio, video {
     padding: 0;
     border: 0;
     text-align: center;
-    font-size: 1.7vw;
-    @media screen and (max-width: 700px) {
-        font-size: 2.2vw;
-    }
 } // basic reset
 
-// html {
-//     height: 350vh;
-// }
+html {
+    font-size: 1.7vw;
+    @media screen and (max-width: 700px) {
+        font-size: 2.3vw;
+    }
+} // adaptive reset
 
 body {
     background-color: #130F10;
@@ -48,7 +47,7 @@ a {
 }
 
 h2 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .flex-page {
@@ -84,13 +83,23 @@ header {
 header h1.marquee  {
     display: block;
     margin-top: 2.5rem;
-    font-size: 2.5rem;
+    font-size: 3rem;
     // animation-name: title-shrink;
     // animation-duration: 4s;
     // animation-fill-mode: forwards;
     font-weight: 800;
     width: 100%;
+    @media screen and (max-width: 700px){
+        font-size: 3.5rem;
+    }
+}
 
+.e-span {
+    display: inline-block;
+    animation-name: font-grow;
+    animation-duration: 1s;
+    font-size: 1em;
+    transform: rotate(-4deg);
 }
 
 .portrait {
@@ -142,29 +151,13 @@ nav ul li {
     a, i, .fab {
         font-size: 2rem;
     }
+    @media screen and (max-width: 700px) {
+        width: 15vw;
+    }
 }
 
 nav ul .handle {
     font-size: 1rem;
-}
-
-.flex-content {
-    // should be set by scrollify or no?
-    padding-bottom: 100vh;
-    // padding-top: 400vh;
-    display: flex;
-    flex-direction: column;
-    height: 200vh;
-    width: 80vw;
-    margin: auto;
-    align-items: center;
-    justify-content: flex-start;
-
-    @media screen and (max-width: 700px) {
-        width: 100vw;
-        margin: auto;
-    }
-    
 }
 
 ::-webkit-scrollbar {
@@ -187,17 +180,44 @@ nav ul .handle {
     }
 }
 
-.content-section {
-    height: 70vh;
+.flex-content {
+    padding-bottom: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 200vh;
+    width: 80vw;
+    margin: auto;
+    align-items: center;
+    justify-content: flex-start;
+
+    @media screen and (max-width: 700px) {
+        width: 100vw;
+        margin: auto;
+    }
+    
+}
+
+.flex-content-section {
+    font-size: 0.8em;
+    width: 80vw;
+    height: 80vh;
+    @media screen and (min-width: 700px) {
+        font-size: 0.8em;
+        width: 100vh;
+    }
 }
 
 .calendar-item {
+    display: block;
     margin-top: 0.3em;
 }
 
 .date-time {
-    text-align: left;
+    // text-align: center;
     font-weight: 700;
+}
+.info {
+    font-size: 0.9em;
 }
 
 #mc_embed_signup {

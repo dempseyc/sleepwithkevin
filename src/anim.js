@@ -84,7 +84,7 @@ export function fadeIn(JQel)
         JQel.css({"opacity": "1"});
         timeout();
 
-    }, 1000);
+    }, 2000);
 }
 
 export function squeezeIn(JQel)
