@@ -105,7 +105,7 @@ header h1.marquee  {
 .portrait {
     display: block;
     height: 100vh;
-    background: url('./images/kevin_1200w.jpg');
+    background: url('./images/kevin_1200w_extended.jpg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: 50%;
@@ -168,12 +168,13 @@ nav ul .handle {
     display: block;
     position: absolute;
     height: 100vh;
-    top: 6rem;
+    top: 8rem;
     width: 80vw;
     left: 50%;
     margin-left: -40vw;
     overflow-y: scroll;
     @media screen and (max-width: 700px) {
+        top: 8rem;
         width: 100vw;
         left: 50%;
         margin-left: -50vw;
@@ -229,6 +230,8 @@ nav ul .handle {
         margin-right: 0.5em;
     }
     input {
+        line-height: 1em;
+        font-size: 0.7em;
         margin-top: 0.1em;
         margin-bottom: 0.1em;
         border: none;
@@ -276,14 +279,4 @@ nav ul .handle {
     100% {
         opacity: 0.4;
     }
-}
-
-.no-js {
-    visibility: hidden;
-    opacity: 0;
-}
-
-.js {
-    visibility: visible;
-    opacity: 1;
 }
