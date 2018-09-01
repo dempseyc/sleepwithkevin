@@ -17,9 +17,9 @@ time, mark, audio, video {
     padding: 0;
     border: 0;
     text-align: center;
-    font-size: 1.5vw;
+    font-size: 1.7vw;
     @media screen and (max-width: 700px) {
-        font-size: 1.5vw;
+        font-size: 2.2vw;
     }
 } // basic reset
 
@@ -38,13 +38,17 @@ body {
 ul {
     list-style: none;
 }
+li {
+    display: block;
+}
 
 a {
     color: #eeeeee;
+    text-decoration: none;
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .flex-page {
@@ -79,11 +83,11 @@ header {
 
 header h1.marquee  {
     display: block;
-    margin-top: 4em;
-    font-size: 1.5em;
-    animation-name: title-shrink;
-    animation-duration: 4s;
-    animation-fill-mode: forwards;
+    margin-top: 2.5rem;
+    font-size: 2.5rem;
+    // animation-name: title-shrink;
+    // animation-duration: 4s;
+    // animation-fill-mode: forwards;
     font-weight: 800;
     width: 100%;
 
@@ -96,53 +100,53 @@ header h1.marquee  {
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: 50%;
+    background-position-y: 3rem;
     animation-name: fade-image;
     animation-duration: 8s;
-    opacity: 0.5;
+    opacity: 0.4;
     z-index: 0;
     img {
         height: 100vh;
         width: auto;
     }
 }
+
+.tag-line {
+    opacity: 0;
+    transition: opacity 1s;
+}
   
 nav {
     display: block;
     position: fixed;
-    right: 5vw;
     width: 100vw;
+    margin-left: -50vw;
+    left: 50%;
     line-height: 3rem;
-    background-color: black;
     z-index: 2;
 }
 
 nav ul {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
 }
-nav ul li, nav ul li a {
+
+nav ul li {
+    text-align: center;
+    display: inline-block;
+    width: 15vw;
     cursor: pointer;
     transition: color 500ms;
-    font-size: 1.5rem;
+    a, i, .fab {
+        font-size: 2rem;
+    }
 }
 
-// idea for later with color highlight
-// $homeColor: #88aabb;
-$caleColor: #e9d13b;
-// $projColor: #66aa66;
-// $subsColor: #6666aa;
-// $applColor: #aa6666;
-$kbBlue: rgb(0,135,225);
-
-nav ul li.highlight {
-    // fill in idea for later with color highlight
-    color: #ffffff;
+nav ul .handle {
+    font-size: 1rem;
 }
-
-// .main-container {
-//     display: block;
-// }
 
 .flex-content {
     // should be set by scrollify or no?
@@ -171,7 +175,7 @@ nav ul li.highlight {
     display: block;
     position: absolute;
     height: 100vh;
-    top: 15rem;
+    top: 6rem;
     width: 80vw;
     left: 50%;
     margin-left: -40vw;
@@ -184,107 +188,34 @@ nav ul li.highlight {
 }
 
 .content-section {
-    height: 90vh;
+    height: 70vh;
 }
 
-.media-links {
-    width: 80vw;
-    margin: auto;
-
-    ul {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        li, li a {
-            text-align: center;
-            font-size: 3rem;  
-        }
-    }
+.calendar-item {
+    margin-top: 0.3em;
 }
 
-.qr-code {
-    width:  80vw;
-    margin: auto;
-    text-align: center;
-    img {
-        width: 50vw;
-        height: 50vw;
-    }
-}
-
-
-.two-col {
-    width: 100%; //based on width of flex-content
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-
-    img, iframe {
-        max-width: 30vw;
-        margin: auto;
-    }
-    p {
-        max-width: 30vw;
-        margin: auto;
-    }
-    
-    @media screen and (max-width: 700px) {
-        
-        display: block;
-        width: 95%;
-        margin: auto;
-        
-        img, iframe {
-            max-width: 90vw;
-            margin: auto;
-        }
-        p {
-            max-width: 90vw;
-            padding: 3vw 3vw 3vw 3vw;
-            margin: auto;
-        }
-    }
-}
-
-.p2 {
-    display: block;
-    opacity: 0;
-    transition: opacity 1s;
-}
-
-.page-1 {
-    background-color: black;
-}
-
-.page-2 {
-    background-color: $caleColor;
-    height: 100vw-
-    // more to do here, but for now get other stuff figured out
-}
-.page-3 {
-    background-color: #448844;
-}
-.page-4 {
-    background-color: $kbBlue;
+.date-time {
+    text-align: left;
+    font-weight: 700;
 }
 
 #mc_embed_signup {
-    padding-top: 1em;
-    padding-bottom: 1em;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     label {
         font-size: 1em;
-        padding-left: 0.5em;
-        padding-right: 0.5em;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
     }
     input {
-        padding-top: 0.1em;
-        padding-bottom: 0.1em;
+        margin-top: 0.1em;
+        margin-bottom: 0.1em;
         border: none;
     }
     .button {
-        padding-top: 0.1em;
-        padding-bottom: 0.1em;
+        margin-top: 0.1em;
+        margin-bottom: 0.1em;
         background: transparent;
         color: white;
         border-radius: 0.2em;
@@ -295,12 +226,6 @@ nav ul li.highlight {
   .mc-field-group {
         line-height: 2.3rem;
         font-size: 2rem;
-}
-
-
-
-.calendar {
-    opacity: 0.8;
 }
 
 @keyframes title-shrink {
@@ -329,6 +254,6 @@ nav ul li.highlight {
         opacity: 1;
     }
     100% {
-        opacity: 0.5;
+        opacity: 0.4;
     }
 }
