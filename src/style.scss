@@ -70,6 +70,7 @@ header {
     display: block;
     position: fixed;
     top: 0;
+    padding-top: 0.5rem;
     width: 100vw;
     left: 50%;
     margin-left: -50vw;
@@ -78,6 +79,9 @@ header {
     height: auto;
     text-align: center;
     z-index: 1;
+    @media screen and (max-width: 700px) {
+        padding-top: 2rem;
+    }
 }
 
 header h1.marquee  {
@@ -99,7 +103,7 @@ header h1.marquee  {
     animation-name: font-grow;
     animation-duration: 1s;
     font-size: 1em;
-    transform: rotate(-4deg);
+    transform: rotate(-8deg);
 }
 
 .portrait {
@@ -133,6 +137,9 @@ nav {
     left: 50%;
     line-height: 3rem;
     z-index: 2;
+    @media screen and (max-width: 700px) {
+        line-height: 6rem;
+    }
 }
 
 nav ul {
@@ -153,11 +160,17 @@ nav ul li {
     }
     @media screen and (max-width: 700px) {
         width: 15vw;
+        a, i, .fab {
+            font-size: 3rem;
+        }
     }
 }
 
 nav ul .handle {
-    font-size: 1rem;
+    font-size: 1.3rem;
+    @media screen and (max-width: 700px) {
+        font-size: 1.5rem;
+    }
 }
 
 ::-webkit-scrollbar {
@@ -168,13 +181,13 @@ nav ul .handle {
     display: block;
     position: absolute;
     height: 100vh;
-    top: 8rem;
+    top: 7rem;
     width: 80vw;
     left: 50%;
     margin-left: -40vw;
     overflow-y: scroll;
     @media screen and (max-width: 700px) {
-        top: 8rem;
+        top: 9rem;
         width: 100vw;
         left: 50%;
         margin-left: -50vw;
@@ -182,16 +195,17 @@ nav ul .handle {
 }
 
 .flex-content {
-    padding-bottom: 100vh;
+    padding-bottom: 46vh;
     display: flex;
     flex-direction: column;
-    height: 200vh;
+    height: 230vh;
     width: 80vw;
     margin: auto;
     align-items: center;
     justify-content: flex-start;
 
     @media screen and (max-width: 700px) {
+        padding-bottom: 0vh;
         width: 100vw;
         margin: auto;
     }
