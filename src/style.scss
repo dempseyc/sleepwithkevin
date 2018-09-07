@@ -116,7 +116,7 @@ header h1.marquee  {
     background-position-y: 3rem;
     animation-name: fade-image;
     animation-duration: 8s;
-    opacity: 0.4;
+    opacity: 0.5;
     z-index: 0;
     img {
         height: 100vh;
@@ -189,25 +189,21 @@ nav ul .handle {
     @media screen and (max-width: 700px) {
         top: 9rem;
         width: 100vw;
-        left: 50%;
         margin-left: -50vw;
     }
 }
 
 .flex-content {
-    padding-bottom: 46vh;
+    padding-bottom: 0vh;
     display: flex;
     flex-direction: column;
-    height: 230vh;
     width: 80vw;
     margin: auto;
     align-items: center;
     justify-content: flex-start;
 
     @media screen and (max-width: 700px) {
-        padding-bottom: 0vh;
         width: 100vw;
-        margin: auto;
     }
     
 }
@@ -215,8 +211,8 @@ nav ul .handle {
 .flex-content-section {
     font-size: 0.8em;
     width: 80vw;
-    height: 70vh;
-    @media screen and (min-width: 700px) {
+    min-height: 70vh;
+    @media screen and (max-width: 700px) {
         font-size: 0.8em;
         width: 100vh;
     }
@@ -291,6 +287,6 @@ nav ul .handle {
         opacity: 1;
     }
     100% {
-        opacity: 0.4;
+        opacity: 0.5;
     }
 }
