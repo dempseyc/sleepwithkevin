@@ -62,6 +62,7 @@ let VEVENT = [
     "STATUS": "CONFIRMED",
     "SUMMARY": "French Fried Comedy",
     "TRANSP": "OPAQUE",
+    "TICKETLINK": "http://www.panameartcafe.com/reservation/?evenement=1189&date=17544",
     "VALARM": [
         {
         "ACTION": "NONE",
@@ -82,6 +83,7 @@ let VEVENT = [
     "STATUS": "CONFIRMED",
     "SUMMARY": "Fresh Bits! Comedy",
     "TRANSP": "OPAQUE",
+    "TICKETLINK": "#",
     "VALARM": [
         {
         "ACTION": "NONE",
@@ -122,6 +124,7 @@ let VEVENT = [
     "STATUS": "CONFIRMED",
     "SUMMARY": "The New York Comedy Night",
     "TRANSP": "OPAQUE",
+    "TICKETLINK": "https://www.eventbrite.fr/e/billets-the-new-york-comedy-night-49737171218?ref=eios&aff=eios",
     "VALARM": [
         {
         "ACTION": "NONE",
