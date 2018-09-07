@@ -212,9 +212,11 @@ nav ul .handle {
     font-size: 0.8em;
     width: 80vw;
     min-height: 70vh;
+    margin-bottom: 5vh;
     @media screen and (max-width: 700px) {
         font-size: 0.8em;
         width: 100vh;
+        margin-bottom: 1vh;
     }
 }
 

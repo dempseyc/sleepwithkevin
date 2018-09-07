@@ -70,27 +70,27 @@ let VEVENT = [
         }
     ]
     },
-    {
-    "DTSTART": "20180902T010000Z",
-    "DTEND": "20180902T020000Z",
-    "DTSTAMP": "20180905T121512Z",
-    "UID": "E0DD5C30-953A-42C8-AB89-91AA33D0CFE9",
-    "CREATED": "20180901T181111Z",
-    "DESCRIPTION": "",
-    "LAST-MODIFIED": "20180901T181154Z",
-    "LOCATION": "the PIT Chapel Hill\\, NC",
-    "SEQUENCE": "0",
-    "STATUS": "CONFIRMED",
-    "SUMMARY": "Fresh Bits! Comedy",
-    "TRANSP": "OPAQUE",
-    "TICKETLINK": "#",
-    "VALARM": [
-        {
-        "ACTION": "NONE",
-        "TRIGGER;VALUE=DATE-TIME": "19760401T005545Z"
-        }
-    ]
-    },
+    // {
+    // "DTSTART": "20180902T010000Z",
+    // "DTEND": "20180902T020000Z",
+    // "DTSTAMP": "20180905T121512Z",
+    // "UID": "E0DD5C30-953A-42C8-AB89-91AA33D0CFE9",
+    // "CREATED": "20180901T181111Z",
+    // "DESCRIPTION": "",
+    // "LAST-MODIFIED": "20180901T181154Z",
+    // "LOCATION": "the PIT Chapel Hill\\, NC",
+    // "SEQUENCE": "0",
+    // "STATUS": "CONFIRMED",
+    // "SUMMARY": "Fresh Bits! Comedy",
+    // "TRANSP": "OPAQUE",
+    // "TICKETLINK": "#",
+    // "VALARM": [
+    //     {
+    //     "ACTION": "NONE",
+    //     "TRIGGER;VALUE=DATE-TIME": "19760401T005545Z"
+    //     }
+    // ]
+    // },
     {
     "DTSTART": "20180908T160000Z",
     "DTEND": "20180908T170000Z",
