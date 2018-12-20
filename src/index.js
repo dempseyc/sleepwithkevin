@@ -6,8 +6,6 @@ import DateTime from 'luxon';
 const $tagLine = $('.tag-line').eq(0);
 fadeIn($tagLine);
 
-// let CAL;/
-
 let request = $.ajax({
     type: "GET",
     url: "http://127.0.0.1:3000/cal?calid=hhc1mfvhcajj77n5jcte1gq50s",
@@ -21,11 +19,10 @@ let request = $.ajax({
     }
 });
 
-// create showtimes list from data
-// sort list
-// add fe strings to items
-// create html from template
-// append to page
+// sort list // not sorting
+// add fe strings to items, OK
+// create html from template, OK
+// append to page, OK
 
 let eventTemplate = (dateString,nameString,addressString,ticketLink,timeZone,details) => {
     let openComment = "<!--";
@@ -66,21 +63,22 @@ let eventTemplate = (dateString,nameString,addressString,ticketLink,timeZone,det
     return html;
 }
 
-function createDateStr(occurance) {
+function createDateStr(occurence) {
     // 2019-01-15T17:00:00.000Z
 
     let months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
     let hours = ['1','2','3','4','5','6','7','8','9','10','11','12','1','2','3','4','5','6','7','8','9','10','11','12'];
-    let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    let parseDate = (str) => {
-        let y = str.substr(0,4);
-        let m = str.substr(4,2) - 1;
-        let d = str.substr(6,2);
-        let hr = str.substr(9,2);
-        let min = str.substr(11,2);
+    let parseDate = (occurence) => {
+        let y = occurence.substr(0,4);
+        let m = occurence.substr(5,2) - 1;
+        let d = occurence.substr(8,2);
+        let hr = occurence.substr(11,2);
+        let min = occurence.substr(14,2);
 
         let D = new Date(y,m,d,hr,min);
+
         let dayStr = days[D.getDay()];
         let mStr = months[D.getMonth()];
         let dateStr = D.getDate();
@@ -90,21 +88,19 @@ function createDateStr(occurance) {
         let minStr = zero + String(D.getMinutes());
         let result = `${dayStr} ${mStr}/${dateStr} ${hrStr}:${minStr}${ampm}`;
 
-        return Object.assign({}, {
-            date: D,
-            dateStr: result
-        });
+        return result;
 
     } // end parseDate
 
-    return parseDate(dateTime);
+    return parseDate(occurence);
 
 } // end createDateString
 
 // nailed it
-let extrapolateOccasionsFromOccurrences = (vevent) => {
+// didn't nail it
+let extrapolateOccasionsFromOccurrences = (vevents) => {
     let list = [];
-    vevent.forEach( (event) => {
+    vevents.forEach( (event) => {
         event.occurrences.forEach( (occurence) => {
             let rawOccasion = {
                 tzid: event.tzid,
@@ -119,18 +115,29 @@ let extrapolateOccasionsFromOccurrences = (vevent) => {
     return list;
 };
 
-let sortOccasions = (occasions) => {
-    return occasions.sort( (a,b) =>  a.date - b.date );
-};
+function parseISOString (s) {
+    var b = s.split(/\D+/);
+    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+}
+
+function sortOccasions (occasions) {
+    return occasions.sort( (a,b) =>  {
+        let p = parseISOString(a.date);
+        let n = parseISOString(b.date);
+        return n - p ;
+    });
+}
 
 function handleData (CAL) {
     let vevents = CAL.calData.vcalendar[0].vevent;
-    let occasions = sortOccasions(extrapolateOccasionsFromOccurrences(vevents));
+    let unsortedOccasions = extrapolateOccasionsFromOccurrences(vevents);
+    console.log(unsortedOccasions);
+    let occasions = sortOccasions(unsortedOccasions);
     console.log(occasions);
     let FEoccasions = occasions.map( (occ) => {
         let occFE = {
-            dateString: '', // fn taking occ.date
-            nameString: '',  // fn taking occ.summary
+            dateString: createDateStr(occ.date), // fn taking occ.date
+            nameString: occ.summary,
             addressString: '', // fn taking occ.location
             ticketLink: '', // fn taking occ.description
             timeZone: '', // fn taking occ.tzid
