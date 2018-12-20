@@ -34,6 +34,10 @@ body {
     overflow: hidden;
 }
 
+div.main-container[style] {
+    visibility: visible;
+}
+
 ul {
     list-style: none;
 }
@@ -116,7 +120,7 @@ header h1.marquee  {
     background-position-y: 3rem;
     animation-name: fade-image;
     animation-duration: 8s;
-    opacity: 0.5;
+    opacity: 0.7;
     z-index: 0;
     img {
         height: 100vh;
@@ -209,12 +213,12 @@ nav ul .handle {
 }
 
 .flex-content-section {
-    font-size: 0.8em;
-    width: 80vw;
+    font-size: 0.6em;
+    max-width: 80vw;
     min-height: 70vh;
     margin-bottom: 5vh;
     @media screen and (max-width: 700px) {
-        font-size: 0.8em;
+        font-size: 0.6em;
         width: 100vh;
         margin-bottom: 1vh;
     }
@@ -289,6 +293,6 @@ nav ul .handle {
         opacity: 1;
     }
     100% {
-        opacity: 0.5;
+        opacity: 0.7;
     }
 }

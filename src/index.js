@@ -1,18 +1,37 @@
 import './style.scss';
 import $ from 'jquery';
 import { fadeIn } from './anim.js';
+import DateTime from 'luxon';
 
 const $tagLine = $('.tag-line').eq(0);
 fadeIn($tagLine);
 
-const $body = document.getElementsByTagName("body")[0];
+// let CAL;/
 
-$body.style.visibility="visible";
+let request = $.ajax({
+    type: "GET",
+    url: "http://127.0.0.1:3000/cal?calid=hhc1mfvhcajj77n5jcte1gq50s",
+    dataType: 'jsonp',
+    success: function (data) {
+        let CAL = JSON.parse(data);
+        handleData(CAL);
+    },
+    error: function( jqXHR, textStatus, errorThrown ) {
+        console.log(errorThrown);
+    }
+});
 
-let eventTemplate = (dateString,nameString,addressString,ticketLink,timeZone,timeCode,details) => {
+// create showtimes list from data
+// sort list
+// add fe strings to items
+// create html from template
+// append to page
+
+let eventTemplate = (dateString,nameString,addressString,ticketLink,timeZone,details) => {
     let openComment = "<!--";
     let closeComment = "-->";
     let barSpan = "<span>|</span>";
+    let timeCode = "20181219T183000%2F20181219T193000"; //eg
     // let dateString = "Saturday 9/10 6:00pm";
     // let nameString = "The New York Comedy Night";
     // let addressString = "Café Oscar, Paris";
@@ -47,110 +66,21 @@ let eventTemplate = (dateString,nameString,addressString,ticketLink,timeZone,tim
     return html;
 }
 
-let VEVENT = [
-    {
-    "DTSTART": "20180912T010000Z",
-    "DTEND": "20180912T020000Z",
-    "DTSTAMP": "20180905T121512Z",
-    "UID": "C641E4AA-E216-4C4D-B912-C2B8EA5E2A0B",
-    "URL": "http://www.panameartcafe.com/reservation/?evenement=1189&date=17544",
-    "CREATED": "20180825T020520Z",
-    "DESCRIPTION": "",
-    "LAST-MODIFIED": "20180905T043726Z",
-    "LOCATION": "Paname Café\\, Paris",
-    "SEQUENCE": "1",
-    "STATUS": "CONFIRMED",
-    "SUMMARY": "French Fried Comedy",
-    "TRANSP": "OPAQUE",
-    "TICKETLINK": "http://www.panameartcafe.com/reservation/?evenement=1189&date=17544",
-    "VALARM": [
-        {
-        "ACTION": "NONE",
-        "TRIGGER;VALUE=DATE-TIME": "19760401T005545Z"
-        }
-    ]
-    },
-    // {
-    // "DTSTART": "20180902T010000Z",
-    // "DTEND": "20180902T020000Z",
-    // "DTSTAMP": "20180905T121512Z",
-    // "UID": "E0DD5C30-953A-42C8-AB89-91AA33D0CFE9",
-    // "CREATED": "20180901T181111Z",
-    // "DESCRIPTION": "",
-    // "LAST-MODIFIED": "20180901T181154Z",
-    // "LOCATION": "the PIT Chapel Hill\\, NC",
-    // "SEQUENCE": "0",
-    // "STATUS": "CONFIRMED",
-    // "SUMMARY": "Fresh Bits! Comedy",
-    // "TRANSP": "OPAQUE",
-    // "TICKETLINK": "#",
-    // "VALARM": [
-    //     {
-    //     "ACTION": "NONE",
-    //     "TRIGGER;VALUE=DATE-TIME": "19760401T005545Z"
-    //     }
-    // ]
-    // },
-    {
-    "DTSTART": "20180908T160000Z",
-    "DTEND": "20180908T170000Z",
-    "DTSTAMP": "20180905T121512Z",
-    "UID": "29EB85EF-0695-44C0-B409-E4FFB7C383D2",
-    "CREATED": "20180828T233555Z",
-    "DESCRIPTION": "",
-    "LAST-MODIFIED": "20180831T145037Z",
-    "LOCATION": "36 rue Dalayrac\\, Paris",
-    "SEQUENCE": "0",
-    "STATUS": "CONFIRMED",
-    "SUMMARY": "The Great British American Comedy Show",
-    "TRANSP": "OPAQUE",
-    "TICKETLINK": "https://www.eventbrite.fr/e/billets-the-great-british-american-comedy-night-49653554117?ref=eios&aff=eios",
-    "VALARM": [
-        {
-        "ACTION": "NONE",
-        "TRIGGER;VALUE=DATE-TIME": "19760401T005545Z"
-        }
-    ]
-    },
-    {
-    "DTSTART": "20180906T190000Z",
-    "DTSTAMP": "20180905T121512Z",
-    "UID": "F2DCD828-9305-4A9C-BC8F-22D184C9768E",
-    "CREATED": "20180824T182021Z",
-    "DESCRIPTION": "",
-    "LAST-MODIFIED": "20180831T144518Z",
-    "LOCATION": "Café Oscar\\, Paris",
-    "SEQUENCE": "0",
-    "STATUS": "CONFIRMED",
-    "SUMMARY": "The New York Comedy Night",
-    "TRANSP": "OPAQUE",
-    "TICKETLINK": "https://www.eventbrite.fr/e/billets-the-new-york-comedy-night-49737171218?ref=eios&aff=eios",
-    "VALARM": [
-        {
-        "ACTION": "NONE",
-        "TRIGGER;VALUE=DATE-TIME": "19760401T005545Z"
-        }
-    ]
-    }
-]; ///////////////////data from ical
+function createDateStr(occurance) {
+    // 2019-01-15T17:00:00.000Z
 
-// TLDR ness
-
-function createDateStr(dateTime,timezone) {
-    // let offset = timezone == 'Paris' ? -7 : -7;
-    // 20180906T190000Z
     let months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
     let hours = ['1','2','3','4','5','6','7','8','9','10','11','12','1','2','3','4','5','6','7','8','9','10','11','12'];
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-        let parseDate = (str) => {
+    let parseDate = (str) => {
         let y = str.substr(0,4);
         let m = str.substr(4,2) - 1;
         let d = str.substr(6,2);
         let hr = str.substr(9,2);
         let min = str.substr(11,2);
 
-        let D = new Date(Date.UTC(y,m,d,hr,min));
+        let D = new Date(y,m,d,hr,min);
         let dayStr = days[D.getDay()];
         let mStr = months[D.getMonth()];
         let dateStr = D.getDate();
@@ -163,42 +93,131 @@ function createDateStr(dateTime,timezone) {
         return Object.assign({}, {
             date: D,
             dateStr: result
-        }); // winky sad walrus tells me this returns a function assigned ?? to 'return?'  weird JS shit
+        });
 
-        } // end parseDate
+    } // end parseDate
 
     return parseDate(dateTime);
 
 } // end createDateString
 
-// works with a few VEVENT items, but here is work
-let calEvtMap = VEVENT.map((item) => {
-    let location = item.LOCATION.split('\\, ');
-    let timezone = location[1];
-    let date = createDateStr(item.DTSTART,timezone);
-    return Object.assign({},{
-        date: date.date,
-        dateString: date.dateStr,
-        nameString: item.SUMMARY,
-        addressString: item.LOCATION.split('\\').join(' '),
-        timeCode: item.DTSTART,
-        timeZone: timezone,
-        ticketLink: item.TICKETLINK
+// nailed it
+let extrapolateOccasionsFromOccurrences = (vevent) => {
+    let list = [];
+    vevent.forEach( (event) => {
+        event.occurrences.forEach( (occurence) => {
+            let rawOccasion = {
+                tzid: event.tzid,
+                description: event.description,
+                summary: event.summary,
+                location: event.location,
+                date: occurence
+            };
+            list.push(rawOccasion);
+        });
     });
-});
+    return list;
+};
 
-// sort cal evt by date
-calEvtMap.sort(function(a,b){
-  return a.date - b.date;
-});
+let sortOccasions = (occasions) => {
+    return occasions.sort( (a,b) =>  a.date - b.date );
+};
 
-// console.log(calEvtMap);
+function handleData (CAL) {
+    let vevents = CAL.calData.vcalendar[0].vevent;
+    let occasions = sortOccasions(extrapolateOccasionsFromOccurrences(vevents));
+    console.log(occasions);
+    let FEoccasions = occasions.map( (occ) => {
+        let occFE = {
+            dateString: '', // fn taking occ.date
+            nameString: '',  // fn taking occ.summary
+            addressString: '', // fn taking occ.location
+            ticketLink: '', // fn taking occ.description
+            timeZone: '', // fn taking occ.tzid
+            timeCode: '', // fn taking occ.date applying occ.duration
+            details: '' // fn taking occ details.. do they exist?  maybe trying to generate ticket link or other links
+        };
+        return Object.assign(occ, occFE);
+    })
+    
+    // add in an enddate for timecode for duration for gcal link
 
-let $calendarItems = $('.calendar-items')[0];
+    FEoccasions.forEach((occ) => {
+    let $calendarItems = $('.calendar-items')[0];
+        let $result = eventTemplate(occ.dateString,occ.nameString,occ.addressString,occ.ticketLink,occ.timeZone,occ.timeCode,occ.details);
+        let $item = $.parseHTML($result);
+        $calendarItems.append(($item)[0]);
+    });
+}
 
-calEvtMap.forEach((calEvt) => {
-    let $result = eventTemplate(calEvt.dateString,calEvt.nameString,calEvt.addressString,calEvt.ticketLink,calEvt.timeZone,calEvt.timeCode,calEvt.details);
-    let $item = $.parseHTML($result);
-    $calendarItems.append(($item)[0]);
-})
-
+//    CAL
+// {
+//   "id": "hhc1mfvhcajj77n5jcte1gq50s",
+//   "status": 200,
+//   "message": "OK",
+//   "calData": {
+//     "calData": {
+//       "vcalendar": [
+//         {
+//           "calName": "craig public test",
+//           "timeZone": "America/New_York",
+//           "vevent": [
+//             {
+//               "dtstart": "20181023T170000",
+//               "tzid": "Europe/Paris",
+//               "uid": "01nkipt4026cdqu4uvijjhr1me@google.com",
+//               "description": "",
+//               "summary": "weeklyeventTUE",
+//               "location": "Paris, France 123 bouche",
+//               "occurrences": [
+//                 "2018-12-25T17:00:00.000Z",
+//                 "2019-01-01T17:00:00.000Z",
+//                 "2019-01-08T17:00:00.000Z",
+//                 "2019-01-15T17:00:00.000Z",
+//                 "2019-01-22T17:00:00.000Z",
+//                 "2019-01-29T17:00:00.000Z",
+//                 "2019-02-05T17:00:00.000Z",
+//                 "2019-02-12T17:00:00.000Z",
+//                 "2019-02-19T17:00:00.000Z",
+//                 "2019-02-26T17:00:00.000Z",
+//                 "2019-03-05T17:00:00.000Z",
+//                 "2019-03-12T17:00:00.000Z",
+//                 "2019-03-19T17:00:00.000Z",
+//                 "2019-03-26T17:00:00.000Z",
+//                 "2019-04-02T17:00:00.000Z",
+//                 "2019-04-09T17:00:00.000Z",
+//                 "2019-04-16T17:00:00.000Z"
+//               ]
+//             },
+//             {
+//               "dtstart": "20160604T210000",
+//               "tzid": "America/New_York",
+//               "uid": "0oko40419m2uk56fo3j4l6ujvi@google.com",
+//               "description": "Like: www.bit.ly/dopeshow\\nHashtag: #DopeNY\\nTwitter: http://twitter.com/berrey\\nInstagram: http://instagram.com/berrey ",
+//               "summary": "Dope (a free weekly comedy show)",
+//               "occurrences": [
+//                 "2018-12-22T21:00:00.000Z",
+//                 "2018-12-29T21:00:00.000Z",
+//                 "2019-01-05T21:00:00.000Z",
+//                 "2019-01-12T21:00:00.000Z",
+//                 "2019-01-19T21:00:00.000Z",
+//                 "2019-01-26T21:00:00.000Z",
+//                 "2019-02-02T21:00:00.000Z",
+//                 "2019-02-09T21:00:00.000Z",
+//                 "2019-02-16T21:00:00.000Z",
+//                 "2019-02-23T21:00:00.000Z",
+//                 "2019-03-02T21:00:00.000Z",
+//                 "2019-03-09T21:00:00.000Z",
+//                 "2019-03-16T21:00:00.000Z",
+//                 "2019-03-23T21:00:00.000Z",
+//                 "2019-03-30T21:00:00.000Z",
+//                 "2019-04-06T21:00:00.000Z",
+//                 "2019-04-13T21:00:00.000Z"
+//               ]
+//             }
+//           ]
+//         }
+//       ]
+//     }
+//   }
+// }
