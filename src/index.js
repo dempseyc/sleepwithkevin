@@ -1,7 +1,8 @@
 import './style.scss';
 import $ from 'jquery';
 import { fadeIn } from './anim.js';
-import DateTime from 'luxon';
+import { DateTime } from 'luxon';
+const linkify = require('linkifyjs');
 
 const $tagLine = $('.tag-line').eq(0);
 fadeIn($tagLine);
@@ -19,52 +20,49 @@ let request = $.ajax({
     }
 });
 
-// sort list // not sorting
-// add fe strings to items, OK
-// create html from template, OK
-// append to page, OK
-
-let eventTemplate = (dateString,nameString,addressString,ticketLink,timeZone,details) => {
+let eventTemplate = (occ) => {
     let openComment = "<!--";
     let closeComment = "-->";
     let barSpan = "<span>|</span>";
-    let timeCode = "20181219T183000%2F20181219T193000"; //eg
-    // let dateString = "Saturday 9/10 6:00pm";
-    // let nameString = "The New York Comedy Night";
-    // let addressString = "Café Oscar, Paris";
-    let uriNameStr = encodeURIComponent(nameString);
-    let uriAddressStr = encodeURIComponent(addressString);
-    let uriDetails = encodeURIComponent(details);
-    let mapLink = `https://maps.google.com/maps?hl=en&q=${uriAddressStr}&source=calendar`;
-    let calLink = `https://calendar.google.com/calendar/event?action=TEMPLATE&hl=en&text=${uriNameStr}&dates=${timeCode}&location=${uriAddressStr}&ctz=${ticketLink}&details=${uriDetails}`;
-    let html = `<li class="calendar-item">
-        <p class="date-time">${dateString}</p>
-        <p class="info">
-            <span class="name">${nameString}</span>
-            ${barSpan}
-            <a class="location" href="${mapLink}" target="_blank">
-                <span>${addressString}</span>
-                <span class="icons"> <i class="fas fa-arrow-right"></i> <i class="fas fa-map-marker-alt"></i></span>
-            </a>
-            </br>
-            <a class="tickets" href="${ticketLink}" target="_blank">
-                <span> tickets </span>
-                <span class="icons"> <i class="fas fa-arrow-right"></i> <i class="fas fa-ticket-alt"></i> </span>
-            </a>
+    let uriTZID = encodeURIComponent(occ.timeZone);
+    let uriNameStr = encodeURIComponent(occ.nameString);
+    let uriAddressStr = encodeURIComponent(occ.addressString);
+    let uriDetails = encodeURIComponent(occ.details);
+    let uriMapLink = `https://maps.google.com/maps?hl=en&q=${uriAddressStr}&source=calendar`;
 
-            ${openComment}
-            ${barSpan}
-            <a href="${calLink}" target="_blank">
+    // https://calendar.google.com/calendar/event?action=TEMPLATE&hl=en&text=Dope%20%28a%20free%20weekly%20comedy%20show%29&dates=20181222T210000%2F20181222T230000&location=Park%20View%20Bar%20%26%20Restaurant%2C%20219%20Dyckman%20St%2C%20New%20York%2C%20NY%2010034%20&ctz=America%2FNew_York&details=Like%3A%C2%A0www.bit.ly%2Fdopeshow%0AHashtag%3A%20%23DopeNY%0ATwitter%3A%20http%3A%2F%2Ftwitter.com%2Fberrey%0AInstagram%3A%20http%3A%2F%2Finstagram.com%2Fberrey%C2%A0
+    let uriCalLink = `https://calendar.google.com/calendar/event?action=TEMPLATE&hl=en&text=${uriNameStr}&dates=${occ.timeCode}&location=${uriAddressStr}&ctz=${uriTZID}&details=${uriDetails}`;
+    let htmlOpen = `<li class="calendar-item">
+        <p class="date-time">${occ.dateString}</p>
+        <p class="info">
+            <span class="name">${occ.nameString}</span>`;
+    console.log(occ.location, 'location');
+
+    let htmlLocation = occ.location ? `   ${barSpan}
+            <a class="location" href="${uriMapLink}" target="_blank">
+                <span>${occ.addressString}</span>
+                <span class="icons"> <i class="fas fa-arrow-right"></i> <i class="fas fa-map-marker-alt"></i></span>
+            </a>` : '';
+
+    let htmlLink = occ.link ? `        ${barSpan}
+            <a class="link" href="${occ.link}" target="_blank">
+                <span> link </span>
+                <span class="icons"> <i class="fas fa-arrow-right"></i> <i class="fas fa-link"></i> </span>
+            </a>` : '';
+
+    let htmlClose = `        ${barSpan}
+            <a href="${uriCalLink}" target="_blank">
                 <span class="calendar-link icons"> <i class="fas fa-arrow-right"></i> <i class="fas fa-calendar-alt"></i></span>
             </a>
-            ${closeComment}
+
         </p>
     </li>`;
+    let html = `${htmlOpen} ${htmlLocation} ${htmlLink} ${htmlClose}`;
     return html;
 }
 
 function createDateStr(occurence) {
-    // 2019-01-15T17:00:00.000Z
+    // 2019-01-15T17:00:00.000Z occurrence eg
 
     let months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
     let hours = ['1','2','3','4','5','6','7','8','9','10','11','12','1','2','3','4','5','6','7','8','9','10','11','12'];
@@ -96,8 +94,12 @@ function createDateStr(occurence) {
 
 } // end createDateString
 
+// fine for now, might need another pass, thus the definition
+let createAddressString = function (location) {
+    return location;
+}
+
 // nailed it
-// didn't nail it
 let extrapolateOccasionsFromOccurrences = (vevents) => {
     let list = [];
     vevents.forEach( (event) => {
@@ -128,20 +130,62 @@ function sortOccasions (occasions) {
     });
 }
 
+// cross fingers
+// should return first url in description
+function findLink (description) {
+    let desc = description.replace(/(\\r\\n|\\n|\\r)/gm," ");
+    let links = linkify.find(desc);
+    let hrefs = [];
+    links.forEach( (link) => {
+        for (let key in link) {
+            if (link[key] = 'url' ) {
+                hrefs.push(link.href);
+            }
+        }
+    });
+    return hrefs.length ? hrefs[0] : false;
+}
+
+// cal link not in template
+function createTimeCode ( date, tzid, duration ) {
+    console.log('date', date);
+    let YYYY = date.substr(0,4);
+    let MM = date.substr(5,2) - 1;
+    let DD = date.substr(8,2);
+    let hh = date.substr(11,2);
+    let mm = date.substr(14,2);
+    let ss = '00';
+    // output: "20181219T183000%2F20181219T193000"
+    // date is a string in locale of tzid from LDT
+    // duration is a number in milliseconds
+
+    // cross fingers
+    let LDTstart = DateTime.fromISO(date, {zone: tzid});
+    let LDTend = LDTstart.plus({milliseconds: duration});
+    // need this for start and end
+    let toYYYYMMDDThhmmss = function (LDTdate) {
+        //
+        let result = `${YYYY}${MM}${DD}T${hh}${mm}${ss}`
+        return String(result);
+    }
+
+    let start = toYYYYMMDDThhmmss(LDTstart);
+    let end = toYYYYMMDDThhmmss(LDTend);
+    let outputStr = `${start}%2F${end}`;
+    return outputStr;
+}
+
 function handleData (CAL) {
     let vevents = CAL.calData.vcalendar[0].vevent;
-    let unsortedOccasions = extrapolateOccasionsFromOccurrences(vevents);
-    console.log(unsortedOccasions);
-    let occasions = sortOccasions(unsortedOccasions);
-    console.log(occasions);
+    let occasions = sortOccasions(extrapolateOccasionsFromOccurrences(vevents));
     let FEoccasions = occasions.map( (occ) => {
         let occFE = {
             dateString: createDateStr(occ.date), // fn taking occ.date
             nameString: occ.summary,
-            addressString: '', // fn taking occ.location
-            ticketLink: '', // fn taking occ.description
-            timeZone: '', // fn taking occ.tzid
-            timeCode: '', // fn taking occ.date applying occ.duration
+            addressString: createAddressString(occ.location), // fn taking occ.location
+            link: findLink(occ.description), // fn taking occ.description
+            timeZone: occ.tzid,
+            timeCode: createTimeCode(occ.date, occ.tzid, occ.duration), // fn taking occ.date applying occ.duration
             details: '' // fn taking occ details.. do they exist?  maybe trying to generate ticket link or other links
         };
         return Object.assign(occ, occFE);
@@ -151,7 +195,7 @@ function handleData (CAL) {
 
     FEoccasions.forEach((occ) => {
     let $calendarItems = $('.calendar-items')[0];
-        let $result = eventTemplate(occ.dateString,occ.nameString,occ.addressString,occ.ticketLink,occ.timeZone,occ.timeCode,occ.details);
+        let $result = eventTemplate(occ);
         let $item = $.parseHTML($result);
         $calendarItems.append(($item)[0]);
     });
