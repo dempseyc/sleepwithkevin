@@ -9,7 +9,8 @@ fadeIn($tagLine);
 
 let request = $.ajax({
     type: "GET",
-    url: "http://127.0.0.1:3000/cal?calid=hhc1mfvhcajj77n5jcte1gq50s",
+    url: "http://calendar.craigdempsey.com/cal?calid=0ujk7748ek4nhhtv3p0sbtir5o",
+    // url: "http://127.0.0.1:3000/cal?calid=0ujk7748ek4nhhtv3p0sbtir5o",
     dataType: 'jsonp',
     success: function (data) {
         let CAL = JSON.parse(data);
@@ -36,7 +37,6 @@ let eventTemplate = (occ) => {
         <p class="date-time">${occ.dateString}</p>
         <p class="info">
             <span class="name">${occ.nameString}</span>`;
-    console.log(occ.location, 'location');
 
     let htmlLocation = occ.location ? `   ${barSpan}
             <a class="location" href="${uriMapLink}" target="_blank">
@@ -96,7 +96,7 @@ function createDateStr(occurence) {
 
 // fine for now, might need another pass, thus the definition
 let createAddressString = function (location) {
-    return location;
+    return location.replace(/\\/g, '');
 }
 
 // nailed it
@@ -126,7 +126,7 @@ function sortOccasions (occasions) {
     return occasions.sort( (a,b) =>  {
         let p = parseISOString(a.date);
         let n = parseISOString(b.date);
-        return n - p ;
+        return p - n ;
     });
 }
 
