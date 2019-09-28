@@ -30,8 +30,6 @@ let eventTemplate = (occ) => {
     let uriAddressStr = encodeURIComponent(occ.addressString);
     let uriDetails = encodeURIComponent(occ.details);
     let uriMapLink = `https://maps.google.com/maps?hl=en&q=${uriAddressStr}&source=calendar`;
-
-    // https://calendar.google.com/calendar/event?action=TEMPLATE&hl=en&text=Dope%20%28a%20free%20weekly%20comedy%20show%29&dates=20181222T210000%2F20181222T230000&location=Park%20View%20Bar%20%26%20Restaurant%2C%20219%20Dyckman%20St%2C%20New%20York%2C%20NY%2010034%20&ctz=America%2FNew_York&details=Like%3A%C2%A0www.bit.ly%2Fdopeshow%0AHashtag%3A%20%23DopeNY%0ATwitter%3A%20http%3A%2F%2Ftwitter.com%2Fberrey%0AInstagram%3A%20http%3A%2F%2Finstagram.com%2Fberrey%C2%A0
     let uriCalLink = `https://calendar.google.com/calendar/event?action=TEMPLATE&hl=en&text=${uriNameStr}&dates=${occ.timeCode}&location=${uriAddressStr}&ctz=${uriTZID}&details=${uriDetails}`;
     let htmlOpen = `<li class="calendar-item">
         <p class="date-time">${occ.dateString}</p>
@@ -99,7 +97,7 @@ let createAddressString = function (location) {
     return location.replace(/\\/g, '');
 }
 
-// nailed it
+// make mapping function
 let extrapolateOccasionsFromOccurrences = (vevents) => {
     let list = [];
     vevents.forEach( (event) => {
@@ -130,7 +128,6 @@ function sortOccasions (occasions) {
     });
 }
 
-// cross fingers
 // should return first url in description
 function findLink (description) {
     let desc = description.replace(/(\\r\\n|\\n|\\r)/gm," ");
@@ -149,22 +146,21 @@ function findLink (description) {
 // cal link not in template
 function createTimeCode ( date, tzid, duration ) {
     console.log('date', date);
-    let YYYY = date.substr(0,4);
-    let MM = date.substr(5,2) - 1;
-    let DD = date.substr(8,2);
-    let hh = date.substr(11,2);
-    let mm = date.substr(14,2);
-    let ss = '00';
     // output: "20181219T183000%2F20181219T193000"
     // date is a string in locale of tzid from LDT
     // duration is a number in milliseconds
 
-    // cross fingers
     let LDTstart = DateTime.fromISO(date, {zone: tzid});
     let LDTend = LDTstart.plus({milliseconds: duration});
     // need this for start and end
     let toYYYYMMDDThhmmss = function (LDTdate) {
-        //
+        let d = LDTdate.toISO();
+        let YYYY = date.substr(0,4);
+        let MM = date.substr(5,2);
+        let DD = date.substr(8,2);
+        let hh = date.substr(11,2);
+        let mm = date.substr(14,2);
+        let ss = '00';
         let result = `${YYYY}${MM}${DD}T${hh}${mm}${ss}`
         return String(result);
     }
@@ -180,19 +176,18 @@ function handleData (CAL) {
     let occasions = sortOccasions(extrapolateOccasionsFromOccurrences(vevents));
     let FEoccasions = occasions.map( (occ) => {
         let occFE = {
-            dateString: createDateStr(occ.date), // fn taking occ.date
+            dateString: createDateStr(occ.date),
             nameString: occ.summary,
-            addressString: createAddressString(occ.location), // fn taking occ.location
-            link: findLink(occ.description), // fn taking occ.description
+            addressString: createAddressString(occ.location),
+            link: findLink(occ.description),
             timeZone: occ.tzid,
-            timeCode: createTimeCode(occ.date, occ.tzid, occ.duration), // fn taking occ.date applying occ.duration
-            details: '' // fn taking occ details.. do they exist?  maybe trying to generate ticket link or other links
+            timeCode: createTimeCode(occ.date, occ.tzid, occ.duration),
+            details: occ.description
         };
         return Object.assign(occ, occFE);
     })
     
     // add in an enddate for timecode for duration for gcal link
-
     FEoccasions.forEach((occ) => {
     let $calendarItems = $('.calendar-items')[0];
         let $result = eventTemplate(occ);

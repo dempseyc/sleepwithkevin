@@ -34,6 +34,7 @@
     "linkifyjs": "^2.1.7",
     "lodash": "^4.17.10",
     "luxon": "^1.8.2",
+    "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.9.2",
     "sass-loader": "^7.0.3"
   }
