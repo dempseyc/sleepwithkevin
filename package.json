@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "font-awesome": "^4.7.0",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jquery-scrollify": "^1.0.19",
     "linkifyjs": "^2.1.7",
     "lodash": "^4.17.10",
